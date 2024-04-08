@@ -1,4 +1,4 @@
-# This is the source code for the Blog Website created using MERNG Stack.
+# This is the backend source code for the Blog Website created using MERNG Stack.
 
 # The website is created using the following technologies:
  1. MongoDB
