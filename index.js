@@ -6,12 +6,14 @@ import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
-import path from 'path';
+import cors from 'cors';
 
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO)
+  .connect(process.env.MONGO_URL,{
+    autoIndex: true
+})
   .then(() => {
     console.log('MongoDb is connected');
   })
@@ -19,12 +21,11 @@ mongoose
     console.log(err);
   });
 
-const __dirname = path.resolve();
-
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors())
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000!');
@@ -39,6 +40,7 @@ app.use('/api/comment', commentRoutes);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
+  console.log(err);
   res.status(statusCode).json({
     success: false,
     statusCode,
